@@ -1,4 +1,4 @@
-#include "utility.hpp"
+#include <lio_sam/utility.hpp>
 #include "lio_sam/msg/cloud_info.hpp"
 #include "lio_sam/srv/save_map.hpp"
 #include <gtsam/geometry/Rot3.h>
@@ -181,8 +181,8 @@ public:
             string saveMapDirectory;
             cout << "****************************************************" << endl;
             cout << "Saving map to pcd files ..." << endl;
-            if(req->destination.empty()) saveMapDirectory = std::getenv("HOME") + savePCDDirectory;
-            else saveMapDirectory = std::getenv("HOME") + req->destination;
+            if(req->destination.empty()) saveMapDirectory = savePCDDirectory;
+            else saveMapDirectory = req->destination;
             cout << "Save destination: " << saveMapDirectory << endl;
             // create directory and remove old files;
             int unused = system((std::string("exec rm -r ") + saveMapDirectory).c_str());
@@ -410,7 +410,6 @@ public:
             return;
         cout << "****************************************************" << endl;
         cout << "Saving map to pcd files ..." << endl;
-        savePCDDirectory = std::getenv("HOME") + savePCDDirectory;
         int unused = system((std::string("exec rm -r ") + savePCDDirectory).c_str());
         unused = system((std::string("mkdir ") + savePCDDirectory).c_str());
         pcl::io::savePCDFileASCII(savePCDDirectory + "trajectory.pcd", *cloudKeyPoses3D);
